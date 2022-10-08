@@ -6,6 +6,8 @@ LINES = ['-', ':', '--']  # Line style for plots.
 
 def main():
     # Load text files into dictionary by author.
+    # TODO the authors and texts could be loaded automatically, maybe with config file
+    # TODO more authors, and more examples per author
     strings_by_author = dict()
     strings_by_author['doyle'] = text_to_string('hound.txt')
     strings_by_author['wells'] = text_to_string('war.txt')
@@ -26,7 +28,7 @@ def main():
 
 def text_to_string(filename):
     """Read a text file and return a string."""
-    with open(filename) as infile:
+    with open(filename, errors='ignore') as infile:
         return infile.read()
 
 def make_word_dict(strings_by_author):
@@ -35,7 +37,7 @@ def make_word_dict(strings_by_author):
     for author in strings_by_author:
         tokens = nltk.word_tokenize(strings_by_author[author])
         words_by_author[author] = ([token.lower() for token in tokens
-                                    if token.isalpha()])
+                                    if token.isalpha()]) # interesting that we leave this here.
     return words_by_author
 
 def find_shortest_corpus(words_by_author):
@@ -63,7 +65,8 @@ def word_length_test(words_by_author, len_shortest_corpus):
                                                 label=author,
                                                 title='Word Length')
     plt.legend()
-##    plt.show()  # Uncomment to see plot while coding function.
+    plt.show(block=False)  # Uncomment to see plot while coding function.
+    plt.pause(3)
 
 def stopwords_test(words_by_author, len_shortest_corpus):
     """Plot stopwords freq by author, truncated to shortest corpus length."""
@@ -82,7 +85,8 @@ def stopwords_test(words_by_author, len_shortest_corpus):
                                                    title=
                                                    '50 Most Common Stopwords')
     plt.legend()
-##    plt.show()  # Uncomment to see plot while coding function.
+    plt.show(block=False)  # Uncomment to see plot while coding function.
+    plt.pause(3)
 
 def parts_of_speech_test(words_by_author, len_shortest_corpus):
     """Plot author use of parts-of-speech such as nouns, verbs, adverbs,etc."""
@@ -97,7 +101,8 @@ def parts_of_speech_test(words_by_author, len_shortest_corpus):
                                              linestyle=LINES[i],
                                              title='Part of Speech')
     plt.legend()
-    plt.show()
+    plt.show(block=False)
+    plt.pause(3)
     # Windows PowerShell users may need plt.show(block=True).
                        
 def vocab_test(words_by_author):
